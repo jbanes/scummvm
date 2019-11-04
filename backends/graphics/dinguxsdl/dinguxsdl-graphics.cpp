@@ -126,11 +126,11 @@ void DINGUXSdlGraphicsManager::initSize(uint w, uint h, const Graphics::PixelFor
 
 	_videoMode.screenWidth = w;
 	_videoMode.screenHeight = h;
-//	if (w > 320 || h > 240) {
-//		setGraphicsMode(GFX_HALF);
-//		setGraphicsModeIntern();
-//		_window->toggleMouseGrab();
-//	}
+	if (w > 320 || h > 240) {
+		setGraphicsMode(GFX_HALF);
+		setGraphicsModeIntern();
+		_window->toggleMouseGrab();
+	}
 
 	_transactionDetails.sizeChanged = true;
 }
@@ -145,13 +145,8 @@ void DINGUXSdlGraphicsManager::drawMouse() {
 	int scale;
 	int hotX, hotY;
 
-	if (_videoMode.mode == GFX_HALF && !_overlayVisible) {
-		dst.x = _cursorX / 2;
-		dst.y = _cursorY / 2;
-	} else {
-		dst.x = _cursorX;
-		dst.y = _cursorY;
-	}
+	dst.x = _cursorX;
+	dst.y = _cursorY;
 
 	if (!_overlayVisible) {
 		scale = _videoMode.scaleFactor;
@@ -382,7 +377,8 @@ void DINGUXSdlGraphicsManager::internUpdateScreen() {
 		// This is necessary if shaking is active.
 		if (_forceRedraw) {
 			_dirtyRectList[0].y = 0;
-			_dirtyRectList[0].h = (_videoMode.mode == GFX_HALF) ? _videoMode.hardwareHeight / 2 : _videoMode.hardwareHeight;
+//			_dirtyRectList[0].h = (_videoMode.mode == GFX_HALF) ? _videoMode.hardwareHeight / 2 : _videoMode.hardwareHeight;
+			_dirtyRectList[0].h = _videoMode.hardwareHeight;
 		}
 
 		drawMouse();
@@ -400,18 +396,10 @@ void DINGUXSdlGraphicsManager::internUpdateScreen() {
 }
 
 void DINGUXSdlGraphicsManager::showOverlay() {
-	if (_videoMode.mode == GFX_HALF) {
-		_cursorX = _cursorX / 2;
-		_cursorY = _cursorY / 2;
-	}
 	SurfaceSdlGraphicsManager::showOverlay();
 }
 
 void DINGUXSdlGraphicsManager::hideOverlay() {
-	if (_videoMode.mode == GFX_HALF) {
-		_cursorX = _cursorX * 2;
-		_cursorY = _cursorY * 2;
-	}
 	SurfaceSdlGraphicsManager::hideOverlay();
 }
 
@@ -425,18 +413,18 @@ bool DINGUXSdlGraphicsManager::loadGFXMode() {
 		_videoMode.aspectRatioCorrection = false;
 	}
 
-//	if (_videoMode.screenWidth > 320 || _videoMode.screenHeight > 240) {
-//		_videoMode.aspectRatioCorrection = false;
-//		setGraphicsMode(GFX_HALF);
-//		debug("GraphicsMode set to HALF");
-//	} else {
+	if (_videoMode.screenWidth > 320 || _videoMode.screenHeight > 240) {
+		_videoMode.aspectRatioCorrection = false;
+		setGraphicsMode(GFX_HALF);
+		debug("GraphicsMode set to HALF");
+	} else {
 		setGraphicsMode(GFX_NORMAL);
 		debug("GraphicsMode set to NORMAL");
-//	}
+	}
 
 	if ((_videoMode.mode == GFX_HALF) && !_overlayVisible) {
-		_videoMode.overlayWidth = _videoMode.screenWidth / 2;
-		_videoMode.overlayHeight = _videoMode.screenHeight / 2;
+//		_videoMode.overlayWidth = _videoMode.screenWidth / 2;
+//		_videoMode.overlayHeight = _videoMode.screenHeight / 2;
 		_videoMode.fullscreen = true;
 	} else {
 		_videoMode.overlayWidth = _videoMode.screenWidth * _videoMode.scaleFactor;
@@ -491,21 +479,11 @@ bool DINGUXSdlGraphicsManager::getFeatureState(OSystem::Feature f) const {
 }
 
 void DINGUXSdlGraphicsManager::warpMouse(int x, int y) {
-	if (_cursorX != x || _cursorY != y) {
-		if (_videoMode.mode == GFX_HALF && !_overlayVisible) {
-			x = x / 2;
-			y = y / 2;
-		}
-	}
 	SurfaceSdlGraphicsManager::warpMouse(x, y);
 }
 
 void DINGUXSdlGraphicsManager::transformMouseCoordinates(Common::Point &point) {
 	if (!_overlayVisible) {
-		if (_videoMode.mode == GFX_HALF) {
-			point.x *= 2;
-			point.y *= 2;
-		}
 		point.x /= _videoMode.scaleFactor;
 		point.y /= _videoMode.scaleFactor;
 		if (_videoMode.aspectRatioCorrection)

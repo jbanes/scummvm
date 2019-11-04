@@ -70,7 +70,7 @@ POSIXSaveFileManager::POSIXSaveFileManager() {
 	envVar = getenv("HOME");
 	if (envVar && *envVar) {
 		savePath = envVar;
-		savePath += "/.scummvm";
+		savePath += "/.scummvm2";
 
 		struct stat sb;
 		if (stat(savePath.c_str(), &sb) != 0 || !S_ISDIR(sb.st_mode)) {

@@ -126,11 +126,11 @@ void DINGUXSdlGraphicsManager::initSize(uint w, uint h, const Graphics::PixelFor
 
 	_videoMode.screenWidth = w;
 	_videoMode.screenHeight = h;
-	if (w > 320 || h > 240) {
-		setGraphicsMode(GFX_HALF);
-		setGraphicsModeIntern();
-		_window->toggleMouseGrab();
-	}
+//	if (w > 320 || h > 240) {
+//		setGraphicsMode(GFX_HALF);
+//		setGraphicsModeIntern();
+//		_window->toggleMouseGrab();
+//	}
 
 	_transactionDetails.sizeChanged = true;
 }
@@ -425,14 +425,14 @@ bool DINGUXSdlGraphicsManager::loadGFXMode() {
 		_videoMode.aspectRatioCorrection = false;
 	}
 
-	if (_videoMode.screenWidth > 320 || _videoMode.screenHeight > 240) {
-		_videoMode.aspectRatioCorrection = false;
-		setGraphicsMode(GFX_HALF);
-		debug("GraphicsMode set to HALF");
-	} else {
+//	if (_videoMode.screenWidth > 320 || _videoMode.screenHeight > 240) {
+//		_videoMode.aspectRatioCorrection = false;
+//		setGraphicsMode(GFX_HALF);
+//		debug("GraphicsMode set to HALF");
+//	} else {
 		setGraphicsMode(GFX_NORMAL);
 		debug("GraphicsMode set to NORMAL");
-	}
+//	}
 
 	if ((_videoMode.mode == GFX_HALF) && !_overlayVisible) {
 		_videoMode.overlayWidth = _videoMode.screenWidth / 2;

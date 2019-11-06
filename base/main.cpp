@@ -301,7 +301,11 @@ static void setupGraphics(OSystem &system) {
 		// Set the user specified graphics mode (if any).
 		system.setGraphicsMode(ConfMan.get("gfx_mode").c_str());
 
+#if defined(DINGUX)
+		system.initSize(320, 240); // Things don't work right if the screen doesn't start at 240
+#else
 		system.initSize(320, 200);
+#endif
 
 		if (ConfMan.hasKey("aspect_ratio"))
 			system.setFeatureState(OSystem::kFeatureAspectRatioCorrection, ConfMan.getBool("aspect_ratio"));

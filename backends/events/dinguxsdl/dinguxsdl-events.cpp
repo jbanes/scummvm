@@ -26,20 +26,22 @@
 
 #include "backends/events/dinguxsdl/dinguxsdl-events.h"
 
-#ifndef GCW0
-#define PAD_UP    SDLK_UP
-#define PAD_DOWN  SDLK_DOWN
-#define PAD_LEFT  SDLK_LEFT
-#define PAD_RIGHT SDLK_RIGHT
-#define BUT_A     SDLK_LCTRL
-#define BUT_B     SDLK_LALT
-#define BUT_X     SDLK_SPACE       // BUT_Y in GCW0
-#define BUT_Y     SDLK_LSHIFT      // BUT_X in GCW0
-#define BUT_SELECT   SDLK_ESCAPE
-#define BUT_START    SDLK_RETURN
-#define TRIG_L    SDLK_TAB
-#define TRIG_R    SDLK_BACKSPACE
-#else // GCW0
+#if !defined(GCW0) && !defined(RETROFW)
+
+#define PAD_UP      SDLK_UP
+#define PAD_DOWN    SDLK_DOWN
+#define PAD_LEFT    SDLK_LEFT
+#define PAD_RIGHT   SDLK_RIGHT
+#define BUT_A       SDLK_LCTRL
+#define BUT_B       SDLK_LALT
+#define BUT_X       SDLK_SPACE       // BUT_Y in GCW0
+#define BUT_Y       SDLK_LSHIFT      // BUT_X in GCW0
+#define BUT_SELECT  SDLK_ESCAPE
+#define BUT_START   SDLK_RETURN
+#define TRIG_L      SDLK_TAB
+#define TRIG_R      SDLK_BACKSPACE
+
+#else // GCW0 & RetroFW
 
 /******
  * GCW0 keymap
@@ -54,18 +56,18 @@
  * R -> VK              BUT_SELECT
  */
 
-#define PAD_UP    SDLK_UP
-#define PAD_DOWN  SDLK_DOWN
-#define PAD_LEFT  SDLK_LEFT
-#define PAD_RIGHT SDLK_RIGHT
-#define BUT_A     SDLK_LSHIFT
-#define BUT_B     SDLK_LALT
-#define BUT_X     SDLK_SPACE
-#define BUT_Y     SDLK_LCTRL
-#define BUT_SELECT   SDLK_BACKSPACE
-#define BUT_START    SDLK_TAB
-#define TRIG_L    SDLK_RETURN
-#define TRIG_R    SDLK_ESCAPE
+#define PAD_UP      SDLK_UP
+#define PAD_DOWN    SDLK_DOWN
+#define PAD_LEFT    SDLK_LEFT
+#define PAD_RIGHT   SDLK_RIGHT
+#define BUT_A       SDLK_LSHIFT
+#define BUT_B       SDLK_LALT
+#define BUT_X       SDLK_SPACE
+#define BUT_Y       SDLK_LCTRL
+#define BUT_SELECT  SDLK_BACKSPACE
+#define BUT_START   SDLK_TAB
+#define TRIG_L      SDLK_RETURN
+#define TRIG_R      SDLK_ESCAPE
 
 #endif
 
